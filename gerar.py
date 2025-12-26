@@ -11,11 +11,12 @@ dados = pd.read_csv("alunos.csv")
 for _, row in dados.iterrows():
     doc = Document("modelo.docx")
 
-    # Substitui os campos (ex: NOME, HORAS)
+    # Substitui os campos mantendo a formatação
     for p in doc.paragraphs:
-        for key, value in row.items():
-            if key in p.text:
-                p.text = p.text.replace(key, str(value))
+        for run in p.runs:
+            for key, value in row.items():
+                if key in run.text:
+                    run.text = run.text.replace(key, str(value))
 
     nome = str(row['NOME']).replace(" ", "_")
 
@@ -28,6 +29,6 @@ for _, row in dados.iterrows():
     # Converte para PDF
     convert(docx_path, pdf_path)
 
-    print(f"✅ Certificado gerado: {row['NOME']}")
+    print(f"✅ Certificado gerado: {row['NOME']} horas: {row['HORAS']}")
 
 print("\nTodos os certificados em PDF foram gerados com sucesso!")
