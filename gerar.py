@@ -11,12 +11,11 @@ dados = pd.read_csv("alunos.csv")
 for _, row in dados.iterrows():
     doc = Document("modelo.docx")
 
-    # Substitui os placeholders (ex: {{{NOME}}})
+    # Substitui os campos (ex: NOME, HORAS)
     for p in doc.paragraphs:
         for key, value in row.items():
-            placeholder = f"{{{{{{{key}}}}}}}"  # {{{NOME}}}
-            if placeholder in p.text:
-                p.text = p.text.replace(placeholder, str(value))
+            if key in p.text:
+                p.text = p.text.replace(key, str(value))
 
     nome = str(row['NOME']).replace(" ", "_")
 
